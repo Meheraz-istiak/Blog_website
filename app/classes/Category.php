@@ -13,15 +13,19 @@ class Category
 		if($post != null)
 		{
 			$this->category_name = $post['category_name'];
-		}
+
+			if (isset($post['update_id'])) 
+			  {
+
+			  	$this->update_id = $post['update_id']; 
+		    }
 		
+		}
 
-
-
-
+		
 		$this->database = new Database();
 
-        $this->conn = $this->database->dbConnect();
+    $this->conn = $this->database->dbConnect();
 	}
 
 	public function saveCategory()
@@ -58,4 +62,27 @@ class Category
 
 
 	}
+
+
+	public function getCategoryById($id)
+  {
+    $this->sql = "SELECT * FROM categories WHERE id = '$id'";
+    $this->queryResult = mysqli_query($this->conn, $this->sql);
+    $this->data = mysqli_fetch_assoc($this->queryResult);
+    return $this->data;
+  }
+
+
+  public function UpdateCategory()
+  {
+  	 $this->sql = "UPDATE categories SET category_name = '$this->category_name' WHERE id='$this->update_id'";
+  	 $this->queryResult = mysqli_query($this->conn, $this->sql);
+
+
+
+  }
+
+
+
+
 }

@@ -20,9 +20,22 @@ if (isset($_GET['page'])) {
 
 		$category = new Category();
     $categories = $category->getAllCategory();
-    
+
 		include 'pages/manage_category.php';
 	}
+
+
+	if ($_GET['page']=='edit') {
+
+    $cat_id = $_GET['id'] ;
+
+		$category = new Category();
+
+    $singlecategories = $category->getCategoryById($cat_id);
+    
+		include 'pages/edit_category.php';
+	}
+
 
 
 
@@ -36,15 +49,40 @@ if (isset($_GET['page'])) {
     // // echo "</pre>";
     include 'pages/category-blog.php';
   }
+
+
+  if ($_GET['page']=='add-blog') 
+  {
+		include 'pages/add_blog.php';
+	}
+
+
+
 }
 
 
 
-else if (isset($_POST['saveCategory'])) {
+else if (isset($_POST['saveCategory'])) 
+{
 
 	$category = new Category($_POST);
 
 	$result = $category->saveCategory();
+
 	$_SESSION['result'] =$result;
-    header('Location: action.php?page=add-category');
+
+  header('Location: action.php?page=add-category');
+}
+
+
+else if (isset($_POST['updateCategory'])) 
+{
+
+	$category = new Category($_POST);
+
+	$result = $category->UpdateCategory();
+
+	$_SESSION['result'] =$result;
+
+  header('Location: action.php?page=manage-category');
 }
